@@ -12,16 +12,10 @@ namespace DevoxTestRedux.Infrastructure.Persistence
     {
         public DbSet<Project> Projects { get; set; }
 
-        public async Task<int> SaveChangesAsync()
+        public async Task SaveChangesAsync()
         {
            await base.SaveChangesAsync();
-            return 0;
         }
-        public ApplicationDBContext()
-        {
-
-        }
-
         public ApplicationDBContext(DbContextOptions options) : base(options)
         {
         }

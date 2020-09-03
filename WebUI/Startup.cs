@@ -22,12 +22,11 @@ namespace WebUI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
             services.AddApplication();
             services.AddInfrastructure(Configuration);
             services.
-               AddControllers(options => options.Filters.Add(typeof(APIExceptionFilterAttribute))).
-               AddFluentValidation();
+               AddControllers(options => options.Filters.Add(typeof(APIExceptionFilterAttribute)));
+            services.AddSerilogServices();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -1,14 +1,21 @@
-﻿using FluentValidation;
+﻿using DevoxTestRedux.Application.Exceptions;
+using FluentValidation;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace WebUI.Filters
 {
+    /// <summary>
+    /// Handles exceptions and returns appropriate responses. Used in Startup.cs
+    /// </summary>
     public class APIExceptionFilterAttribute : ExceptionFilterAttribute
     {
         public APIExceptionFilterAttribute()
         { }
+        //Root exception handling method
         public override void OnException(ExceptionContext context)
         {
             HandleException(context);
@@ -17,7 +24,7 @@ namespace WebUI.Filters
         private void HandleException(ExceptionContext context)
         {
             var exceptionType = context.Exception.GetType();
-            if (exceptionType == typeof(ValidationException))
+            if (exceptionType == typeof(CustomValidationException))
             {
                 HandleValidationException(context);
                 return;
@@ -42,9 +49,10 @@ namespace WebUI.Filters
         }
         private void HandleValidationException(ExceptionContext context)
         {
-            var details = new ValidationProblemDetails()
+            var exception = (CustomValidationException)context.Exception;
+            var details = new ValidationProblemDetails(exception.Errors)
             {
-                Status = StatusCodes.Status500InternalServerError,
+                Status = StatusCodes.Status400BadRequest,
                 Title = "Validation Error",
             };
             context.Result = new BadRequestObjectResult(details);

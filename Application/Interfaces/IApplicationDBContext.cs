@@ -7,9 +7,12 @@ using System.Threading.Tasks;
 
 namespace DevoxTestRedux.Application.Interfaces
 {
+    /// <summary>
+    /// Represents a basic DbContext that can be modified in case of changed requeirements.
+    /// </summary>
     public interface IApplicationDBContext
     {
         DbSet<Project> Projects { get; set; }
-        Task<int> SaveChangesAsync();
+        Task SaveChangesAsync();
     }
 }
