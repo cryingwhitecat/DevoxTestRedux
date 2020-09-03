@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using DevoxTestRedux.Application.Projects.Commands;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+//using WebUI.Filters;
 
 namespace WebUI.Controllers
 {
@@ -12,8 +13,8 @@ namespace WebUI.Controllers
     [ApiController]
     public class CreateProjectController : BaseAPIController
     {
-        [HttpPost]
-        public async Task<ActionResult<int>> Create([FromBody] CreateProjectCommand command)
+        [HttpPut]
+        public async Task<ActionResult<int>> Post(CreateProjectCommand command)
         {
             return await Mediator.Send(command);
         }
